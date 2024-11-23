@@ -9,17 +9,17 @@ savedBook:[Book] # array of books
 }
 
 type Book {
+    bookId: String!
 authors:[String] # array
 description:String!
-bookId: String!
+title: String!
 image:String!
 link:String!
-title: String!
 }
 
-type Query {
-getSingleUser:(id:ID!,username:String): User
-login(email:String, username:String, password:String!)
+type Auth {
+token:String!
+user:User!
 }
 
 input bookSubdoc {
@@ -31,10 +31,16 @@ link:String
 title:String!
 }
 
+type Query {
+me:User!
+}
+
+
 type Mutation {
-createUser(email:String!,username:String! password:String!)
-saveBook(bookSubdoc:bookSubdoc!): User
-deleteBook(bookId:String!):User
+    login(email:String!,password:String!):Auth!
+addUser(email:String!,username:String! password:String!):Auth!
+saveBook(bookData:bookSubdoc!): User!
+removeBook(bookId:String!):User!
 
 }
 `  */

@@ -1,6 +1,6 @@
 /* 
 const { User } = require('../models');
-const { signToken } = required('../utils/auth');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -21,7 +21,7 @@ const resolvers = {
                 throw new Error('not found');
             }
 
-            const correctPw = await User.isCorrectPassword(password);
+            const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
                 throw new Error('not found')
@@ -33,16 +33,16 @@ const resolvers = {
 
         Mutation: {
 
-            createUser: async (parent, args) => {
+            addUser: async (parent, args) => {
                 const user = await User.create(args);
                 const token = signToken(user)
                 return { token, user };
             },
 
-            saveBook: async (parent, { bookSubdoc }, context) => {
+            saveBook: async (parent, {bookData }, context) => {
                 const user = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: bookSubdoc } },
+                    { $addToSet: { savedBooks: bookData } },
                     { new: true, runValidators: true }
 
                 )
@@ -61,4 +61,6 @@ const resolvers = {
 }
 
 module.exports = resolvers;
+
  */
+/* Add more error handling */
