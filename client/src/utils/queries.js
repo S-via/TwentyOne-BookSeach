@@ -1,8 +1,8 @@
 import { gql } from 'apollo/client'
 
-export const GET_SINGLE_USER = gql`
-query getsingleUser($id:ID,$username:String) {
-    getSingleUser(id:$id, username:$username) {
+export const GET_ME = gql`
+query getMe($id:ID,$username:String) {
+    getMe(id:$id, username:$username) {
         _id
         username
         email

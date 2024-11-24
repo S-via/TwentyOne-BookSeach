@@ -9,7 +9,7 @@ savedBook:[Book] # array of books
 }
 
 type Book {
-    bookId: String!
+bookId: String!
 authors:[String] # array
 description:String!
 title: String!
@@ -37,7 +37,7 @@ me:User!
 
 
 type Mutation {
-    login(email:String!,password:String!):Auth!
+login(email:String!,password:String!):Auth!
 addUser(email:String!,username:String! password:String!):Auth!
 saveBook(bookData:bookSubdoc!): User!
 removeBook(bookId:String!):User!
