@@ -5,33 +5,36 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
 
-        getsingleUser: async (parent, { id, username }) => {
+        me: async (parent, { id, username }) => {
             const user = await User.findOne({
                 $or: [{ _id: id }, { username }],
             });
             return user;
         },
+    },
+    
 
-        login: async (parent, { email, username, password }) => {
-            const user = await User.findOne({
-                $or: [{ username }, { email }],
-            });
-
-            if (!user) {
-                throw new Error('not found');
-            }
-
-            const correctPw = await user.isCorrectPassword(password);
-
-            if (!correctPw) {
-                throw new Error('not found')
-            }
-
-            const token = signToken(user);
-            return { token, user };
-        },
-
+        
         Mutation: {
+
+            login: async (parent, { email, username, password }) => {
+                const user = await User.findOne({
+                    $or: [{ username }, { email }],
+                });
+    
+                if (!user) {
+                    throw new Error('not found');
+                }
+    
+                const correctPw = await user.isCorrectPassword(password);
+    
+                if (!correctPw) {
+                    throw new Error('not found')
+                }
+    
+                const token = signToken(user);
+                return { token, user };
+            },
 
             addUser: async (parent, args) => {
                 const user = await User.create(args);
@@ -57,8 +60,8 @@ const resolvers = {
                 return user;
             },
         },
-    }
-}
+};
+
 
 module.exports = resolvers;
 

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 // added 
-import {useMuatation} from '@apollo/client'
+import {useMutation} from '@apollo/client'
 import {LOGIN_USER} from '../utils/mutations'
 
-/* import { loginUser } from '../utils/API'; */
+
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
@@ -30,7 +30,7 @@ const LoginForm = () => {
     }
 
     try {
-      const [login] = useMuatation(LOGIN_USER);
+      const [login] = useMutation(LOGIN_USER);
 
       const {data} = await login({variable:{...userFormData}});
 

@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+/* no need  */
+/* import { useState, useEffect } from 'react'; */
+
 // imported from client & queries
 import { useQuery } from '@apollo/client'
 import { GET_ME } from '../utils/queries'
 import { useMutation } from '@apollo/client'
-import { REMOVE_BOOK } from '../utils/queries'
+import { REMOVE_BOOK } from '../utils/mutations'
 
 import {
   Container,
@@ -13,7 +15,8 @@ import {
   Col
 } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+/* remove line below */
+/* import { getMe, deleteBook } from '../utils/API'; */
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
@@ -60,7 +63,7 @@ const SavedBooks = () => {
     }
   }
 
-}
+
 // if data isn't here yet, say so
 if (loading) {
   return <h2>LOADING...</h2>;
@@ -102,6 +105,6 @@ if (loading) {
       </Container>
     </>
   );
-};
 
+}
 export default SavedBooks;

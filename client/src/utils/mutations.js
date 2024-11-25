@@ -1,11 +1,21 @@
-import {gql} from 'apollo/client';
+import { gql } from '@apollo/client';
 
-/* export const LOGIN_USER = gql`
-mutation loginUser()
-`
-ADD LOGIC AND ATTACH IT TO SERVER.JS WITH APOLLO SERVER */
+export const LOGIN_USER = gql`
+query login($email: String, $username: String, $password: String!){
+    login(email: $email, username: $username, password: $password){
+user {
+            _id
+            username
+            email
+        }
+    }
+    }
+    `
 
-export const ADD_USER = gql `
+
+/* ADD LOGIC AND ATTACH IT TO SERVER.JS WITH APOLLO SERVER */
+
+export const ADD_USER = gql`
 mutation addUser($email:String!,$username:String!,$password:String!){
     addUser(username:$username,email:$email,password:$password){
         user {
@@ -18,7 +28,7 @@ mutation addUser($email:String!,$username:String!,$password:String!){
 }
 `
 
-export const SAVE_BOOK = gql `
+export const SAVE_BOOK = gql`
 mutation saveBook($bookData:bookSubdoc!){
     saveBook(bookData:$bookData){
         _id
@@ -35,7 +45,7 @@ mutation saveBook($bookData:bookSubdoc!){
     }
 }
 `
-export const REMOVE_BOOK = gql `
+export const REMOVE_BOOK = gql`
 mutation removeBook($bookId:String!) {
     removeBook(bookID:$bookId){
         _id
