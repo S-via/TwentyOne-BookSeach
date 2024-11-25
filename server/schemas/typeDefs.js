@@ -1,4 +1,4 @@
-/* 
+
 const typeDefs = 
 `
 type User {
@@ -43,5 +43,5 @@ saveBook(bookData:bookSubdoc!): User!
 removeBook(bookId:String!):User!
 
 }
-`  */
+`  
 
