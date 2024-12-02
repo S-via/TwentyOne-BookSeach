@@ -1,16 +1,16 @@
 
 const typeDefs =
-`
+    `
 type User {
 _id: ID!
 username: String!
 email: String!
-savedBooks:[Book] # array of books
+savedBooks:[Book]
 }
 
 type Book {
-bookId: String!
-authors: [String] # array
+bookId: ID!
+authors: [String]
 description: String!
 title: String!
 image: String!
@@ -18,8 +18,8 @@ link: String!
 }
 
 type Auth {
-token:String!
-user:User!
+token:ID!
+user:User
 }
 
 input BookSubdoc {
@@ -32,17 +32,17 @@ title: String!
 }
 
 type Query {
-me: User!
+me: User
 }
 
 
 type Mutation {
 login(email:String!,password:String!):Auth!
 addUser(email:String!,username:String!, password:String!):Auth!
-saveBook(bookData: BookSubdoc!): User!
-removeBook(bookId: String!):User!
+saveBook(bookData: BookSubdoc!): User
+removeBook(bookId: ID!):User
 
 }
-`  
+`
 
 module.exports = typeDefs;

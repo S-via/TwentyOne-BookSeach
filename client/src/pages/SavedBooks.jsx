@@ -2,10 +2,11 @@
 /* import { useState, useEffect } from 'react'; */
 
 // imported from client & queries
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { GET_ME } from '../utils/queries'
-import { useMutation } from '@apollo/client'
 import { REMOVE_BOOK } from '../utils/mutations'
+import Auth from '../utils/auth';
+import { removeBookId } from '../utils/localStorage';
 
 import {
   Container,
@@ -17,22 +18,24 @@ import {
 
 /* remove line below */
 /* import { getMe, deleteBook } from '../utils/API'; */
-import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
 
-  /*   const [userData, setUserData] = useState({});
+  /*   const [userData, setUserData] = useState({}); */
   // use this to determine if `useEffect()` hook needs to run again
-    const userDataLength = Object.keys(userData).length; */
+  /*  const userDataLength = Object.keys(userData).length;  */
   const { loading, data, error } = useQuery(GET_ME);
-  const userData = data?.me || {};
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
-    if (loading) {
-      throw new Error('something went wrong!');
-    }
+  const userData = data?.me || {};
+  console.log('user data:', userData)
+
+  if (loading) {
+    return <h2>LOADING...</h2>;
+  }
    if (error) {
-    throw new Error('something went wrong!');
+    console.error('Error',error)
+    return <h2>error</h2>;
   }
  
 
@@ -40,7 +43,6 @@ const SavedBooks = () => {
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    const [removeBook,{loading,error} ] = useMutation(REMOVE_BOOK);
 
     if (!token) {
       return false;
@@ -54,20 +56,17 @@ const SavedBooks = () => {
       if (!data.removeBook) {
         throw new Error('something went wrong!');
       }
-      setUserData(data.removeBook);
-      // upon success, remove book's id from localStorage
+      
       removeBookId(bookId);
     }
       catch (err) {
-      console.error(err);
+      console.error('error',error);
     }
   }
 
 
 // if data isn't here yet, say so
-if (loading) {
-  return <h2>LOADING...</h2>;
-}
+
 
 
   return (
