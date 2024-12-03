@@ -22,11 +22,11 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-  
+
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  const [saveBook,{error}] = useMutation(SAVE_BOOK);
-  
+  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
@@ -67,27 +67,26 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
-    // added below line 70 ,82,83,86
+
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-   
+console.log('booktosave:',bookToSave)
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
     }
-console.log('token',token)
+    console.log('token', token)
     try {
-      const { data } = await saveBook({
-        variables: {bookData:{...bookToSave}}
+      const {data} = await saveBook({
+        variables: { bookData: { ...bookToSave } }
       });
-     console.log('response:',data)
-  
-
+      console.log('responsedata:',data)
+      
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (error) {
-      console.error('error',error);
+      console.error('error', error);
     }
   };
 

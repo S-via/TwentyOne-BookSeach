@@ -6,11 +6,13 @@ const resolvers = {
     Query: {
 
         me: async (parent, args, context) => {
-            const user = await User.findOne({
-                _id: context.user._id
-            });
-            return user;
-        },
+            if (context.user) {
+                const user = await User.findOne({
+                    _id: context.user._id
+                });
+                return user;
+            }
+        }
     },
 
 
@@ -43,30 +45,30 @@ const resolvers = {
         },
 
         saveBook: async (parent, { bookData }, context) => {
+            console.log(context.user)
             if (context.user) {
-                const user = await User.findOneAndUpdate(
+                console.log(bookData)
+                const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: bookData } },
-                    { new: true, runValidators: true }
+                    { new: true}
                 )
                 return user;
             }
 
         },
-        removeBook: async (parent, { bookId }, context) => {
-            console.log('context', context.user)
-            if (!context.user) {
-                throw new AuthenticationError('need to be loggedin')
+        removeBook: async (parent,args, context) => {
+            if (context.user) {
+                const user = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: args } },
+                    { new: true }
+                )
+                return user;
             }
-            const user = await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $pull: { savedBooks: { bookId } } },
-                { new: true }
-            )
-            return user;
         },
-    },
-};
+    }
+}
 
 
 module.exports = resolvers;

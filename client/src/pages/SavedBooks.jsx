@@ -1,5 +1,7 @@
 /* no need  */
 /* import { useState, useEffect } from 'react'; */
+/* remove line below */
+/* import { getMe, deleteBook } from '../utils/API'; */
 
 // imported from client & queries
 import { useQuery, useMutation } from '@apollo/client'
@@ -16,59 +18,47 @@ import {
   Col
 } from 'react-bootstrap';
 
-/* remove line below */
-/* import { getMe, deleteBook } from '../utils/API'; */
 
 const SavedBooks = () => {
+  const { loading, data } = useQuery(GET_ME);
 
   /*   const [userData, setUserData] = useState({}); */
+
   // use this to determine if `useEffect()` hook needs to run again
+
   /*  const userDataLength = Object.keys(userData).length;  */
-  const { loading, data, error } = useQuery(GET_ME);
-  const [removeBook] = useMutation(REMOVE_BOOK);
 
-  const userData = data?.me || {};
+  const userData = {savedBooks:[],...data?.me}
   console.log('user data:', userData)
-
-  if (loading) {
-    return <h2>LOADING...</h2>;
-  }
-   if (error) {
-    console.error('Error',error)
-    return <h2>error</h2>;
-  }
- 
-
+  //
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
     }
 
     try {
-      const {data} = await removeBook({
-        variables:{bookId},
-    });
+      const { data } = await removeBook(
+        {
+          variables: { bookId },
+        });
+      console.log('response', data);
 
-      if (!data.removeBook) {
-        throw new Error('something went wrong!');
-      }
-      
       removeBookId(bookId);
     }
-      catch (err) {
-      console.error('error',error);
+    catch (err) {
+      console.error('error', err);
     }
   }
 
-
-// if data isn't here yet, say so
-
-
-
+  if (loading) {
+    return <h2>LOADING...</h2>;
+  }
+  // if data isn't here yet, say so
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
