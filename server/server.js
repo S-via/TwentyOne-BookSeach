@@ -17,7 +17,8 @@ const server = new ApolloServer({
 });
 
 //WE WRAP THIS WITH startApolloSerever line 16-34
- const startApolloServer = async() => { await server.start();
+ const startApolloServer = async() => { 
+  await server.start();
   
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,7 +30,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 // added _ for dirname && seperated index.html replaced dist with build
-app.get('*',(req,res)=> {res.sendFile(path.join(__dirname,'../client/build/index.html'));}); 
+app.get('*',(req,res)=> {
+  res.sendFile(path.join(__dirname,'../client/build/index.html'));}); 
 
 /*  REMOVE  line 28 */
 /* app.use(routes); */
