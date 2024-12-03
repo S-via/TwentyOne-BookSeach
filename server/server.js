@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 // added _ for dirname && seperated index.html replaced dist with build
-app.get('*',(req,res)=> {res.sendFile(path.join(__dirname,'../client/dist/index.html'));}); 
+app.get('*',(req,res)=> {res.sendFile(path.join(__dirname,'../client/build','index.html'));}); 
 
 /*  REMOVE  line 28 */
 /* app.use(routes); */
